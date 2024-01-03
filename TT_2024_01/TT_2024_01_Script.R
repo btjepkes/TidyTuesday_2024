@@ -1,3 +1,5 @@
+# Based on code from Nicola Rennie: https://github.com/nrennie/tidytuesday/tree/main/2024/2024-01-02
+
 # Load packages -----------------------------------------------------------
 
 library(tidyverse)
@@ -18,7 +20,7 @@ gh_gql("query { viewer { login }}")
 
 # Get number of contributions by day
 contributions <- 'query {
-  user(login: "nrennie") {
+  user(login: "btjepkes") {
     contributionsCollection(from: "2023-01-01T00:00:00Z", to: "2023-12-31T23:59:59Z") {
       contributionCalendar {
         weeks {
@@ -76,7 +78,7 @@ title_font <- "ubuntu"
 # Start recording ---------------------------------------------------------
 
 gg_record(
-  dir = file.path("2024", "2024-01-02", "recording"),
+  dir = "Recordings",
   device = "png",
   width = 10,
   height = 3,
@@ -87,18 +89,17 @@ gg_record(
 
 # Define text -------------------------------------------------------------
 
-social <- nrBrand::social_caption(
-  bg_colour = bg_col,
-  icon_colour = highlight_col,
-  font_colour = text_col,
-  font_family = body_font
-)
-title <- "GitHub contributions: nrennie"
-st <- glue("{format(sum(plot_data$contributions), big.mark = ',')} contributions 
-           in 2023 ")
+# social <- nrBrand::social_caption(
+#   bg_colour = bg_col,
+#   icon_colour = highlight_col,
+#   font_colour = text_col,
+#   font_family = body_font
+# )
+
+title <- "GitHub contributions: btjepkes"
+st <- glue("{format(sum(plot_data$contributions), big.mark = ',')} contributions in 2023 ")
 cap <- paste0(
-  "**Data**: GitHub<br>**Graphic**: ", social
-)
+  "**Data**: GitHub | **Graphic**: Benjamin Tjepkes | **Code:** Adapted from work by @nrennie")
 
 
 # Legend data -------------------------------------------------------------
@@ -207,9 +208,7 @@ ggplot() +
     ),
     plot.caption = element_textbox_simple(
       colour = text_col,
-      hjust = 0,
-      halign = 0,
-      margin = margin(b = 10, t = -20),
+      margin = margin(b = 10, t = -15),
       lineheight = 0.5,
       family = body_font
     )
@@ -219,7 +218,7 @@ ggplot() +
 # Save gif ----------------------------------------------------------------
 
 gg_playback(
-  name = file.path("2024", "2024-01-02", paste0("20240102", ".gif")),
+  name = "20240102.gif",
   first_image_duration = 4,
   last_image_duration = 20,
   frame_duration = .25,
